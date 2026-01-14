@@ -30,6 +30,8 @@ Khai_Pha_Du_Lieu/
 │   ├── model_minhhieu.py # Xây dựng và huấn luyện mô hình
 │   ├── evaluation.py     # Đánh giá mô hình
 │   └── main.py           # Script chính
+├── web/                   # Web app
+│   └── app.py            # Streamlit web app
 ├── models/               # Lưu model đã train
 └── output/               # Kết quả (biểu đồ, báo cáo)
 ```
@@ -73,6 +75,19 @@ python main.py train --model mobilenet --epochs 30
 ```bash
 python main.py predict ../models/cnn_final.keras path/to/image.jpg
 ```
+
+### Chạy Web App
+```bash
+cd web
+streamlit run app.py
+```
+
+**Tính năng Web App:**
+- 📊 Xem phân tích dữ liệu (EDA) với biểu đồ
+- 📤 Upload ảnh để dự đoán
+- 📁 Chọn ảnh mẫu từ dataset
+- 📷 Chụp ảnh từ camera để dự đoán
+- 📈 Hiển thị kết quả và xác suất các class
 
 ## Thông tin dữ liệu
 
