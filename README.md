@@ -14,6 +14,7 @@
 ```
 Khai_Pha_Du_Lieu/
 ├── README.md               # File hướng dẫn
+├── N5_report.md           # Báo cáo project (chuyển sang PDF)
 ├── requirements.txt        # Thư viện cần cài
 ├── train.csv              # Dữ liệu training (đường dẫn + nhãn)
 ├── val.csv                # Dữ liệu validation
@@ -35,6 +36,22 @@ Khai_Pha_Du_Lieu/
 ├── models/               # Lưu model đã train
 └── output/               # Kết quả (biểu đồ, báo cáo)
 ```
+
+## Báo cáo
+
+File `N5_report.md` chứa báo cáo đầy đủ theo cấu trúc:
+1. Giới thiệu đề tài
+2. Mục tiêu và bài toán
+3. Mô tả dữ liệu và tiền xử lý
+4. Phương pháp và mô hình
+5. Kết quả và đánh giá
+6. Kết luận và hướng phát triển
+7. Tài liệu tham khảo
+
+**Chuyển sang PDF:**
+- Dùng VS Code: Mở file .md → Ctrl+Shift+P → "Markdown: Export to PDF"
+- Hoặc dùng Pandoc: `pandoc N5_report.md -o N5_report.pdf`
+- Hoặc copy vào Google Docs rồi xuất PDF
 
 ## Cài đặt
 
