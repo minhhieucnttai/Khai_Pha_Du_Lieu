@@ -17,16 +17,20 @@ CLASSES = ['angular_leaf_spot', 'bean_rust', 'healthy']
 NUM_CLASSES = len(CLASSES)
 
 
-def get_data_paths(base_path='../data'):
+def get_data_paths(base_path=None):
     """
     Get paths to train and validation data directories.
     
     Args:
-        base_path: Base path to the data folder
+        base_path: Base path to the data folder. If None, defaults to '../data'
+                   relative to this file's directory.
         
     Returns:
         tuple: (train_path, val_path)
     """
+    if base_path is None:
+        # Use path relative to this file's location
+        base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
     train_path = os.path.join(base_path, 'train')
     val_path = os.path.join(base_path, 'val')
     return train_path, val_path

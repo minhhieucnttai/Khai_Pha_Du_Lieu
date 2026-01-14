@@ -151,10 +151,7 @@ def extract_texture_features(image):
     # Contrast
     features.append(gray.max() - gray.min())
     
-    # Entropy (measure of randomness)
-    from skimage.filters.rank import entropy
-    from skimage.morphology import disk
-    # Use a simple entropy approximation
+    # Entropy (measure of randomness) - using simple entropy approximation
     hist, _ = np.histogram(gray.ravel(), bins=256, range=(0, 256))
     hist = hist / hist.sum()
     entropy_val = -np.sum(hist * np.log2(hist + 1e-7))
