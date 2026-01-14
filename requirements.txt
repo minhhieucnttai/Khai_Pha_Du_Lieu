@@ -1,0 +1,10 @@
+# Thu vien can thiet
+numpy
+pandas
+matplotlib
+seaborn
+pillow
+tensorflow
+scikit-learn
+opencv-python
+streamlit
