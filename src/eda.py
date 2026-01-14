@@ -5,12 +5,17 @@ Phân tích dữ liệu khám phá
 
 import os
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
 from collections import Counter
 
-from preprocessing import CLASSES, get_data_paths, count_images_per_class, get_sample_images
+from preprocessing import (
+    CLASSES, CATEGORY_MAP, 
+    get_data_paths, count_images_per_class, get_sample_images,
+    get_csv_paths, get_csv_class_distribution, load_csv_data
+)
 
 
 def plot_class_distribution(train_path, val_path, save_path=None):
@@ -304,6 +309,38 @@ def generate_eda_report(train_path, val_path, output_dir='../output'):
         train_path,
         save_path=os.path.join(output_dir, 'image_size_distribution.png')
     )
+    
+    # CSV Data Analysis
+    print("\n5. CSV DATA ANALYSIS")
+    print("-" * 40)
+    
+    train_csv, val_csv = get_csv_paths()
+    
+    if os.path.exists(train_csv) and os.path.exists(val_csv):
+        print(f"Train CSV: {train_csv}")
+        print(f"Val CSV: {val_csv}")
+        
+        train_csv_counts = get_csv_class_distribution(train_csv)
+        val_csv_counts = get_csv_class_distribution(val_csv)
+        
+        print("\nTraining Set (from CSV):")
+        total_csv_train = sum(train_csv_counts.values())
+        for class_name, count in train_csv_counts.items():
+            percentage = (count / total_csv_train) * 100 if total_csv_train > 0 else 0
+            print(f"  {class_name}: {count} images ({percentage:.1f}%)")
+        
+        print("\nValidation Set (from CSV):")
+        total_csv_val = sum(val_csv_counts.values())
+        for class_name, count in val_csv_counts.items():
+            percentage = (count / total_csv_val) * 100 if total_csv_val > 0 else 0
+            print(f"  {class_name}: {count} images ({percentage:.1f}%)")
+        
+        # Category mapping info
+        print("\nCategory Mapping (from CSV):")
+        for cat_id, class_name in CATEGORY_MAP.items():
+            print(f"  {cat_id}: {class_name}")
+    else:
+        print("CSV files not found. Skipping CSV analysis.")
     
     print("\n" + "=" * 60)
     print("EDA REPORT COMPLETED!")

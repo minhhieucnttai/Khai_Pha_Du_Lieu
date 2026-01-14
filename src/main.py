@@ -14,8 +14,10 @@ from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from preprocessing import (
-    CLASSES, IMG_SIZE, get_data_paths, create_data_generators,
-    load_and_preprocess_image, count_images_per_class
+    CLASSES, IMG_SIZE, CATEGORY_MAP,
+    get_data_paths, create_data_generators,
+    load_and_preprocess_image, count_images_per_class,
+    get_csv_paths, get_csv_class_distribution
 )
 from model_minhhieu import (
     build_simple_cnn, build_transfer_learning_model,
@@ -202,13 +204,17 @@ def demo():
     print("  2. Bean Rust - Gỉ sắt đậu")
     print("  3. Healthy - Lá khỏe mạnh")
     
+    print("\nCategory Mapping (from CSV):")
+    for cat_id, class_name in CATEGORY_MAP.items():
+        print(f"  {cat_id}: {class_name}")
+    
     print("\nAvailable commands:")
     print("  python main.py eda               - Run exploratory data analysis")
     print("  python main.py train             - Train a new model")
     print("  python main.py predict <model> <image> - Classify an image")
     print("  python main.py batch <model> <dir>     - Classify all images in directory")
     
-    # Show dataset info
+    # Show dataset info from directories
     data_path = '../data'
     if os.path.exists(data_path):
         train_path = os.path.join(data_path, 'train')
@@ -218,7 +224,7 @@ def demo():
             train_counts = count_images_per_class(train_path)
             val_counts = count_images_per_class(val_path)
             
-            print("\nDataset Summary:")
+            print("\nDataset Summary (from directories):")
             print("-" * 40)
             print(f"Training images: {sum(train_counts.values())}")
             for class_name, count in train_counts.items():
@@ -226,6 +232,24 @@ def demo():
             print(f"\nValidation images: {sum(val_counts.values())}")
             for class_name, count in val_counts.items():
                 print(f"  - {class_name}: {count}")
+    
+    # Show dataset info from CSV files
+    train_csv, val_csv = get_csv_paths()
+    if os.path.exists(train_csv) and os.path.exists(val_csv):
+        train_csv_counts = get_csv_class_distribution(train_csv)
+        val_csv_counts = get_csv_class_distribution(val_csv)
+        
+        print("\nDataset Summary (from CSV files):")
+        print("-" * 40)
+        print(f"Train CSV: {os.path.basename(train_csv)}")
+        print(f"  Total: {sum(train_csv_counts.values())} images")
+        for class_name, count in train_csv_counts.items():
+            print(f"  - {class_name}: {count}")
+        
+        print(f"\nVal CSV: {os.path.basename(val_csv)}")
+        print(f"  Total: {sum(val_csv_counts.values())} images")
+        for class_name, count in val_csv_counts.items():
+            print(f"  - {class_name}: {count}")
     
     print("\n" + "=" * 60)
 
